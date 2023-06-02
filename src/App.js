@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import InputComponent from './İnput';
+import { useSearch } from './searchUtils';
+
+import emojiData from './emojiList.json';
 
 function App() {
+  const { searchResults, suggestions, searchText, showSuggestions, setSearchText, setShowSuggestions, handleSearch, filteredSubmit, handleSelectSuggestion } = useSearch(emojiData);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <InputComponent
+        onSearch={handleSearch}
+        suggestions={suggestions}
+        onSubmit={filteredSubmit}
+        onSelectSuggestion={handleSelectSuggestion}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        showSuggestions={showSuggestions}
+        setShowSuggestions={setShowSuggestions}
+      
+      />
+      <div className="search-results">
+        {searchResults.map((emoji) => (
+          <div className="emoji" key={emoji.title}>
+            <div className="size">{emoji.symbol}</div>
+            <div className="title">{emoji.title}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
